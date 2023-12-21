@@ -1,0 +1,24 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres
+    container_name: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=docker
+      - POSTGRES_PASSWORD=root
+  redis-stack:
+    image: redis/redis-stack
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+  redis-web:
+    image: redis/redis-stack
+    container_name: redis-web
+    restart: always
+    ports:
+      - "8001:8001"
