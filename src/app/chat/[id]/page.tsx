@@ -23,7 +23,7 @@ export default async function page({ params }: { params: { id: string } }) {
   const { messages, ...chat } = chats[0];
 
   return (
-    <div className="grid grid-cols-[minmax(200px,320px)_1fr_400px] h-dvh">
+    <div className="grid h-[calc(100dvh-64px)] grid-cols-[minmax(200px,320px)_1fr_500px]">
       <ChatHistory />
       <PDFViewer pdfURL={chat.fileUrl} />
       <Chat chat={chat} messages={messages} />

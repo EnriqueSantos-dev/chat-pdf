@@ -2,7 +2,7 @@
 
 import { Chat } from "@/lib/db";
 import { cn } from "@/lib/utils";
-import { MessageCircleMoreIcon } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -22,8 +22,8 @@ export function ChatHistoryLink({ id, filename }: ChatHistoryLinkProps) {
         }
       )}
     >
-      <MessageCircleMoreIcon className="w-4 h-4 mr-2 flex-shrink-0" />
-      <span className="w-full whitespace-nowrap truncate">{filename}</span>
+      <MessageSquare className="mr-2 size-4 shrink-0" />
+      <span className="w-full truncate whitespace-nowrap">{filename}</span>
     </Link>
   );
 }
