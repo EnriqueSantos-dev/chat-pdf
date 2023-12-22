@@ -58,7 +58,7 @@ export function Chat({ chat, messages: initialMessages }: ChatProps) {
             }}
             className="placeholder:text-muted-foreground focus-visible:ring-ring border-input h-10 max-h-20 flex-1 resize-none rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
           />
-          <Button ref={buttonRef} type="submit" size="icon" variant="secondary">
+          <Button ref={buttonRef} type="submit" size="icon" variant="default">
             <SendHorizonal className="size-4" />
           </Button>
         </div>

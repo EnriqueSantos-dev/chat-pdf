@@ -11,6 +11,7 @@ import { RedisVectorStore } from "langchain/vectorstores/redis";
 import { db } from "@/lib/db";
 import { chats } from "@/lib/db/schema";
 import { uploadToSupabase } from "@/lib/upload-to-supabase";
+import { auth } from "@clerk/nextjs";
 
 export async function POST(req: NextRequest) {
   const redisClient = createClient({
@@ -18,6 +19,9 @@ export async function POST(req: NextRequest) {
   });
 
   try {
+    const { userId } = auth();
+    if (!userId) return NextResponse.json({ message: "Unauthorized" });
+
     await redisClient.connect();
 
     const formdata = await req.formData();
@@ -51,7 +55,7 @@ export async function POST(req: NextRequest) {
       .values({
         filename: filenameToSave,
         fileUrl: publicFileURL,
-        userId: "user_2ZnzE5bkVyfuTQUzkCfEDnIhYAX",
+        userId,
       })
       .returning();
 

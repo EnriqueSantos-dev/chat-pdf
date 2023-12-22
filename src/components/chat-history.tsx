@@ -2,11 +2,10 @@ import { db } from "@/lib/db";
 import { chats } from "@/lib/db/schema";
 import { auth } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
-import { MessageCircleMoreIcon, PlusCircleIcon } from "lucide-react";
+import { PlusCircleIcon } from "lucide-react";
 import Link from "next/link";
-import { buttonVariants } from "./ui/button";
-import { cn } from "@/lib/utils";
 import { ChatHistoryLink } from "./chat-history-link";
+import { buttonVariants } from "./ui/button";
 
 export async function ChatHistory() {
   const { userId } = auth();
