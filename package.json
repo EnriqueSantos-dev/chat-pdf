@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "db:migrate:dev": "pnpm drizzle-kit generate:pg --config=drizzle.config.ts",
+    "db:migrate:deploy": "pnpm drizzle-kit push:pg --config=drizzle.config.ts",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
