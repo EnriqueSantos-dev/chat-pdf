@@ -1,6 +1,6 @@
 "use client";
 
-import { Chat, Message } from "@/lib/db";
+import { Chat as ChatModel, Message } from "@/lib/db";
 import { useChat } from "ai/react";
 import { ChatList } from "./chat-list";
 import { Input } from "./ui/input";
@@ -10,7 +10,7 @@ import TextAreaResizable from "react-textarea-autosize";
 import React from "react";
 
 type ChatProps = {
-  chat: Chat;
+  chat: ChatModel;
   messages: Message[];
 };
 
@@ -56,7 +56,7 @@ export function Chat({ chat, messages: initialMessages }: ChatProps) {
                 buttonRef.current?.click();
               }
             }}
-            className="placeholder:text-muted-foreground focus-visible:ring-ring border-input h-10 max-h-20 flex-1 resize-none rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
+            className="placeholder:text-muted-foreground focus-visible:ring-ring border-input min-h-9 max-h-20 flex-1 resize-none rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
           />
           <Button ref={buttonRef} type="submit" size="icon" variant="default">
             <SendHorizonal className="size-4" />

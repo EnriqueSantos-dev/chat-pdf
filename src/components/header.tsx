@@ -9,7 +9,7 @@ export default function Header() {
           href="/"
           className="bg-gradient-to-r from-purple-700 to-purple-500 bg-clip-text text-2xl font-bold text-transparent "
         >
-          Niara ChatPDF
+          ChatPDF
         </Link>
         <UserButton />
       </nav>
