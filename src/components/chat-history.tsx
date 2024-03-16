@@ -1,18 +1,20 @@
-import { db } from "@/lib/db";
-import { chats } from "@/lib/db/schema";
-import { auth } from "@clerk/nextjs";
-import { eq } from "drizzle-orm";
+import { auth } from "@/lib/auth";
 import { PlusCircleIcon } from "lucide-react";
 import Link from "next/link";
 import { ChatHistoryLink } from "./chat-history-link";
 import { buttonVariants } from "./ui/button";
+import prisma from "@/lib/prisma";
+import { cache } from "react";
+
+const getChats = cache(async (userId: string) => {
+  return await prisma.chat.findMany({
+    where: { userId },
+  });
+});
 
 export async function ChatHistory() {
-  const { userId } = auth();
-  const history = await db
-    .select()
-    .from(chats)
-    .where(eq(chats.userId, userId!));
+  const session = await auth();
+  const history = await getChats(session?.user?.id!);
 
   return (
     <aside className="grid h-full w-full grid-rows-[auto_1fr] gap-y-6 border-r p-6">

@@ -1,5 +1,7 @@
-import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
+import UserProfile from "./user-profile";
+import { Suspense } from "react";
+import UserProfileSkeleton from "./user-profile-skeleton";
 
 export default function Header() {
   return (
@@ -11,7 +13,9 @@ export default function Header() {
         >
           ChatPDF
         </Link>
-        <UserButton />
+        <Suspense fallback={<UserProfileSkeleton />}>
+          <UserProfile />
+        </Suspense>
       </nav>
     </header>
   );

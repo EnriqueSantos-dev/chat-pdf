@@ -1,5 +1,5 @@
 import { api } from "@/lib/api";
-import { Chat } from "@/lib/db";
+import { Chat } from "@prisma/client";
 
 export async function uploadFile(file: File): Promise<Chat> {
   const formData = new FormData();

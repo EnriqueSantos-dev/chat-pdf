@@ -1,14 +1,14 @@
 "use client";
 
-import { Chat } from "@/lib/db";
 import { cn } from "@/lib/utils";
+import { Chat } from "@prisma/client";
 import { MessageSquare } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 type ChatHistoryLinkProps = Chat;
 
-export function ChatHistoryLink({ id, filename }: ChatHistoryLinkProps) {
+export function ChatHistoryLink({ id, fileName }: ChatHistoryLinkProps) {
   const pathname = usePathname();
   const isActive = pathname === `/chat/${id}`;
 
@@ -23,7 +23,7 @@ export function ChatHistoryLink({ id, filename }: ChatHistoryLinkProps) {
       )}
     >
       <MessageSquare className="mr-2 size-4 shrink-0" />
-      <span className="w-full truncate whitespace-nowrap">{filename}</span>
+      <span className="w-full truncate whitespace-nowrap">{fileName}</span>
     </Link>
   );
 }
