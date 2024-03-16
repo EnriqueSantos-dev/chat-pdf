@@ -7,7 +7,7 @@ type ChatListProps = {
 
 export function ChatList({ messages }: ChatListProps) {
   return (
-    <ul className="scrollbar-thin scrollbar-thumb-muted-foreground scrollbar-track-rounded-full scrollbar-track-muted scrollbar-thumb-rounded-full flex-1 space-y-6 overflow-y-auto scroll-smooth px-4 py-6">
+    <ul className="flex-1 space-y-6 overflow-y-auto scroll-smooth px-4 py-6 scrollbar-thin scrollbar-track-muted scrollbar-thumb-muted-foreground scrollbar-track-rounded-full scrollbar-thumb-rounded-full">
       {messages.map((message) => (
         <ChatMessage key={message.id} {...message} />
       ))}

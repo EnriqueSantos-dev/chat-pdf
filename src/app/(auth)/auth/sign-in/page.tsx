@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default function SignInPage() {
   return (
     <section className="space-y-4">
-      <h1 className="text-2xl text-center font-bold">ChatPDF</h1>
+      <h1 className="text-center text-2xl font-bold">ChatPDF</h1>
       <SignInButton />
     </section>
   );

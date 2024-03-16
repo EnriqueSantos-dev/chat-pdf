@@ -11,7 +11,7 @@ export default function LogoutButton() {
 
   return (
     <DropdownMenuItem onSelect={logout}>
-      Sair <LogOut className="size-4 ml-auto" />
+      Sair <LogOut className="ml-auto size-4" />
     </DropdownMenuItem>
   );
 }

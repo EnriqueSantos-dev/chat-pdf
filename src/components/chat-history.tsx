@@ -17,7 +17,7 @@ export async function ChatHistory() {
   const history = await getChats(session?.user?.id!);
 
   return (
-    <aside className="grid h-full w-full grid-rows-[auto_1fr] gap-y-6 border-r p-6">
+    <aside className="grid size-full grid-rows-[auto_1fr] gap-y-6 border-r p-6">
       <Link
         href="/"
         className={buttonVariants({
@@ -26,13 +26,13 @@ export async function ChatHistory() {
           size: "lg",
         })}
       >
-        <PlusCircleIcon className="mr-2 h-4 w-4 text-current" />
+        <PlusCircleIcon className="mr-2 size-4 text-current" />
         Nova Conversa
       </Link>
 
       <div className="h-full max-h-full space-y-4 overflow-hidden">
         {history.length === 0 ? (
-          <span className="text-muted-foreground mt-6 block text-center">
+          <span className="mt-6 block text-center text-muted-foreground">
             Você ainda não tem conversas!
           </span>
         ) : (

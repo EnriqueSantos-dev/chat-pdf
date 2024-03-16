@@ -6,6 +6,6 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="grid place-content-center w-dvw h-dvh">{children}</main>
+    <main className="grid h-dvh w-dvw place-content-center">{children}</main>
   );
 }

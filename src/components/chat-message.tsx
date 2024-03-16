@@ -43,7 +43,7 @@ export function ChatMessage({ id, content, role }: ChatMessageProps) {
           />
         )}
       </div>
-      <span className="text-foreground block flex-1 text-pretty rounded-md pt-2">
+      <span className="block flex-1 text-pretty rounded-md pt-2 text-foreground">
         {content}
       </span>
     </li>
