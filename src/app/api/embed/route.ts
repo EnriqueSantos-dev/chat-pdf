@@ -13,13 +13,13 @@ import { getRedisClient } from "@/lib/redis";
 import { uploadToSupabase } from "@/lib/upload-to-supabase";
 
 export async function POST(req: NextRequest) {
+  const redisClient = await getRedisClient();
+
   try {
     const session = await auth();
     const userId = session?.user.id;
 
     if (!userId) return NextResponse.json({ message: "Unauthorized" });
-
-    await using redisClient = await getRedisClient();
 
     const formdata = await req.formData();
     const file = formdata.get("file") as File | null;
@@ -43,7 +43,7 @@ export async function POST(req: NextRequest) {
     }));
 
     await RedisVectorStore.fromDocuments(docsMapped, new OpenAIEmbeddings(), {
-      redisClient: redisClient.instance,
+      redisClient,
       indexName: `chatpdf:${filenameToSave}`,
     });
 
@@ -59,5 +59,7 @@ export async function POST(req: NextRequest) {
   } catch (error) {
     console.log(error);
     return NextResponse.json({ message: "Generate embeddings failed" });
+  } finally {
+    await redisClient.disconnect();
   }
 }

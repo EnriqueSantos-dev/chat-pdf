@@ -15,6 +15,8 @@ export async function POST(
   req: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  const redisClient = await getRedisClient();
+
   try {
     const body = await req.json();
     const { filename, messages } = body;
@@ -22,6 +24,9 @@ export async function POST(
     const query = messages.at(-1).content;
 
     const { stream, handlers } = LangChainStream({
+      onFinal: async () => {
+        await redisClient.disconnect();
+      },
       async onCompletion(completion) {
         await prisma.message.createMany({
           data: [
@@ -40,10 +45,8 @@ export async function POST(
       },
     });
 
-    await using redisClient = await getRedisClient();
-
     const redisVectorStore = new RedisVectorStore(new OpenAIEmbeddings(), {
-      redisClient: redisClient.instance,
+      redisClient,
       indexName,
     });
 
@@ -70,6 +73,7 @@ export async function POST(
     return new StreamingTextResponse(stream);
   } catch (error) {
     console.log(error);
+    await redisClient.disconnect();
     return new Response("Internal Server Error", { status: 500 });
   }
 }
