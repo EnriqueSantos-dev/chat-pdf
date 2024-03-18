@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 
 import { Chat } from "@/components/chat";
 import PDFViewer from "@/components/pdf-viewer";
+import { ChatHistory } from "@/components/chat-history";
 
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
@@ -19,7 +20,8 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <PDFViewer pdfURL={chat.fileUrl} />
+      <ChatHistory />
+      <PDFViewer key={chat.id} pdfURL={chat.fileUrl} />
       <Chat chat={chat} messages={chat.messages} />
     </>
   );
