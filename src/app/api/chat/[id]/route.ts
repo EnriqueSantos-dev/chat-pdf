@@ -7,7 +7,7 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { RedisVectorStore } from "langchain/vectorstores/redis";
 
 import prisma from "@/lib/prisma";
-import { redisClient } from "@/lib/redis";
+import { getRedisClient } from "@/lib/redis";
 
 const INDEX_PREFIX = "chatpdf:";
 
@@ -40,8 +40,10 @@ export async function POST(
       },
     });
 
+    await using redisClient = await getRedisClient();
+
     const redisVectorStore = new RedisVectorStore(new OpenAIEmbeddings(), {
-      redisClient,
+      redisClient: redisClient.instance,
       indexName,
     });
 

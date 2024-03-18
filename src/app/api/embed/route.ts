@@ -9,19 +9,17 @@ import { RedisVectorStore } from "langchain/vectorstores/redis";
 
 import { auth } from "@/lib/auth";
 import prisma from "@/lib/prisma";
-import { redisClient } from "@/lib/redis";
+import { getRedisClient } from "@/lib/redis";
 import { uploadToSupabase } from "@/lib/upload-to-supabase";
 
 export async function POST(req: NextRequest) {
   try {
     const session = await auth();
+    const userId = session?.user.id;
 
-    if (!session?.user?.id)
-      return NextResponse.json({ message: "Unauthorized" });
+    if (!userId) return NextResponse.json({ message: "Unauthorized" });
 
-    const userId = session.user.id;
-
-    await redisClient.connect();
+    await using redisClient = await getRedisClient();
 
     const formdata = await req.formData();
     const file = formdata.get("file") as File | null;
@@ -45,7 +43,7 @@ export async function POST(req: NextRequest) {
     }));
 
     await RedisVectorStore.fromDocuments(docsMapped, new OpenAIEmbeddings(), {
-      redisClient,
+      redisClient: redisClient.instance,
       indexName: `chatpdf:${filenameToSave}`,
     });
 
