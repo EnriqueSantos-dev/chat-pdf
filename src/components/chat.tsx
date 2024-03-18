@@ -1,10 +1,12 @@
 "use client";
 
-import { Chat, Message } from "@prisma/client";
-import { useChat } from "ai/react";
-import { SendHorizonal, StopCircleIcon } from "lucide-react";
 import React from "react";
+
+import { useChat } from "ai/react";
+import { Chat, Message } from "@prisma/client";
+import { SendHorizonal, StopCircleIcon } from "lucide-react";
 import TextAreaResizable from "react-textarea-autosize";
+
 import { ChatList } from "./chat-list";
 import { Button } from "./ui/button";
 
@@ -55,7 +57,7 @@ export function Chat({ chat, messages: initialMessages }: ChatProps) {
                 buttonRef.current?.click();
               }
             }}
-            className="max-h-20 min-h-9 flex-1 resize-none rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+            className="max-h-20 min-h-9 flex-1 resize-none rounded-md border border-input bg-transparent px-3 py-1 text-sm leading-6 shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
           />
           <Button ref={buttonRef} type="submit" size="icon" variant="default">
             <SendHorizonal className="size-4" />

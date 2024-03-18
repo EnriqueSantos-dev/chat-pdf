@@ -1,4 +1,5 @@
 import GitHub from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
 
 import type { NextAuthConfig } from "next-auth";
 
@@ -16,6 +17,7 @@ export default {
   },
   pages: {
     signIn: "/auth/sign-in",
+    error: "/auth/sign-in",
   },
   basePath: "/api/auth",
   callbacks: {
@@ -34,6 +36,10 @@ export default {
   },
   secret: process.env.AUTH_SECRET,
   providers: [
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
     GitHub({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,

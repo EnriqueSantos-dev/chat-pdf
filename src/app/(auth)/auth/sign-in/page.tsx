@@ -1,5 +1,6 @@
 import { Metadata } from "next";
-import SignInButton from "./_components/sign-in-button";
+
+import SignInButtons from "./_components/sign-in-buttons";
 
 export const metadata: Metadata = {
   title: "Login",
@@ -10,7 +11,7 @@ export default function SignInPage() {
   return (
     <section className="space-y-4">
       <h1 className="text-center text-2xl font-bold">ChatPDF</h1>
-      <SignInButton />
+      <SignInButtons />
     </section>
   );
 }

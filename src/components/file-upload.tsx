@@ -1,45 +1,56 @@
 "use client";
-import { cn } from "@/lib/utils";
-import { uploadFile } from "@/services/upload-file";
+import React from "react";
+
+import { useRouter } from "next/navigation";
+
 import { useMutation } from "@tanstack/react-query";
 import { Inbox, Loader2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import React from "react";
 import { useDropzone } from "react-dropzone";
-import { toast } from "react-hot-toast";
+
+import { cn } from "@/lib/utils";
+
+import { uploadFile } from "@/lib/upload-file";
+
+import { useToast } from "./ui/use-toast";
 
 type FileUploadProps = React.ComponentProps<"div">;
 
 export function FileUpload({ className, ...props }: FileUploadProps) {
   const router = useRouter();
-  const { mutate, status } = useMutation({
+  const { toast } = useToast();
+  const mutation = useMutation({
     mutationFn: uploadFile,
+    onSuccess: ({ id }) => {
+      toast({
+        title: "Chat criado com sucesso!",
+        description: "Você será redirecionado para o chat em instantes.",
+      });
+      router.push(`/chat/${id}`);
+    },
+    onError: () => {
+      toast({
+        variant: "destructive",
+        title: "Ocorreu um erro ao criar o chat!",
+        description: "Tente novamente mais tarde.",
+      });
+    },
   });
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: { "application/pdf": [".pdf"] },
     maxFiles: 1,
-    onDrop: async (acceptedFiles) => {
+    onDrop: (acceptedFiles) => {
       const file = acceptedFiles[0];
       if (file.size > 10 * 1024 * 1024) {
-        toast.error("O arquivo é muito grande! O limite é 10MB");
+        toast({
+          variant: "destructive",
+          title: "Arquivo muito grande!",
+          description: "O arquivo deve ter no máximo 10MB.",
+        });
         return;
       }
 
-      try {
-        mutate(file, {
-          onSuccess: ({ id }) => {
-            toast.success("Chat criado com sucesso!");
-            router.push(`/chat/${id}`);
-          },
-          onError: (err) => {
-            toast.error("Ocorreu um erro ao criar o chat!");
-            console.error(err);
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
+      mutation.mutate(file);
     },
   });
 
@@ -50,14 +61,17 @@ export function FileUpload({ className, ...props }: FileUploadProps) {
     >
       <div
         {...getRootProps({
-          className:
+          className: cn(
             "border-dashed border-2 border-muted-foreground rounded-xl cursor-pointer py-8 flex justify-center items-center flex-col",
+            {
+              "pointer-events-none": mutation.isPending,
+            }
+          ),
         })}
       >
-        <input {...getInputProps()} />
-        {status === "pending" ? (
+        <input {...getInputProps()} aria-disabled={mutation.isPending} />
+        {mutation.isPending ? (
           <>
-            {/* loading state */}
             <Loader2 className="size-10 animate-spin text-blue-500" />
             <p className="mt-2 text-sm text-slate-400">
               Criando uma conversa, aguarde...
