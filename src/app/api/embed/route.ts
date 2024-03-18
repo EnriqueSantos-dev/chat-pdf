@@ -2,25 +2,24 @@ import { randomUUID } from "node:crypto";
 import path from "node:path";
 
 import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "redis";
 
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { RedisVectorStore } from "langchain/vectorstores/redis";
 
-import { db } from "@/lib/db";
-import { chats } from "@/lib/db/schema";
+import { auth } from "@/lib/auth";
+import prisma from "@/lib/prisma";
+import { redisClient } from "@/lib/redis";
 import { uploadToSupabase } from "@/lib/upload-to-supabase";
-import { auth } from "@clerk/nextjs";
 
 export async function POST(req: NextRequest) {
-  const redisClient = createClient({
-    url: process.env.REDIS_URL ?? "redis://localhost:6379",
-  });
-
   try {
-    const { userId } = auth();
-    if (!userId) return NextResponse.json({ message: "Unauthorized" });
+    const session = await auth();
+
+    if (!session?.user?.id)
+      return NextResponse.json({ message: "Unauthorized" });
+
+    const userId = session.user.id;
 
     await redisClient.connect();
 
@@ -50,20 +49,17 @@ export async function POST(req: NextRequest) {
       indexName: `chatpdf:${filenameToSave}`,
     });
 
-    const chat = await db
-      .insert(chats)
-      .values({
-        filename: filenameToSave,
+    const chat = await prisma.chat.create({
+      data: {
+        fileName: filenameToSave,
         fileUrl: publicFileURL,
         userId,
-      })
-      .returning();
+      },
+    });
 
-    return NextResponse.json({ ...chat[0] });
+    return NextResponse.json(chat);
   } catch (error) {
     console.log(error);
     return NextResponse.json({ message: "Generate embeddings failed" });
-  } finally {
-    await redisClient.disconnect();
   }
 }

@@ -4,17 +4,17 @@ Aplicativo para interagir com qualquer PDF usando a api de Embeddings da **OpenA
 
 ## Tecnologias usadas
 
-- Clerk.dev
+- Auth.js (next-auth)
 - Docker
 - Redis
 - LangChain
 - NextJS 14
-- Drizzle ORM
+- Prisma ORM
 - ShadcnUI
 
 ## Como rodar o projeto
 
-Para conseguir rodar o projeto é necessário ter criar um projeto na [clerk](https://clerk.com), uma conta na [openai](https://openai.com) e ter o [docker](https://docs.docker.com/get-docker) instalado na sua máquina.
+Para conseguir rodar o projeto é necessário ter o [docker](https://docs.docker.com/get-docker) instalado na sua máquina.
 
 ### Variáveis de ambiente
 

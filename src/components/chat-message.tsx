@@ -1,12 +1,13 @@
 import { cn } from "@/lib/utils";
-import { useUser } from "@clerk/nextjs";
 import { Message } from "ai";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 
 type ChatMessageProps = Message;
 
 export function ChatMessage({ id, content, role }: ChatMessageProps) {
-  const { user } = useUser();
+  const { data } = useSession<true>();
+  const user = data?.user;
 
   return (
     <li
@@ -25,7 +26,7 @@ export function ChatMessage({ id, content, role }: ChatMessageProps) {
       >
         {role === "user" ? (
           <Image
-            src={user?.imageUrl!}
+            src={user?.image!}
             alt={
               role === "user"
                 ? "Foto de perfil do usuário"
@@ -42,7 +43,7 @@ export function ChatMessage({ id, content, role }: ChatMessageProps) {
           />
         )}
       </div>
-      <span className="text-foreground block flex-1 text-pretty rounded-md pt-2">
+      <span className="block flex-1 text-pretty rounded-md pt-2 text-foreground">
         {content}
       </span>
     </li>

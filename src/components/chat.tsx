@@ -1,16 +1,15 @@
 "use client";
 
-import { Chat as ChatModel, Message } from "@/lib/db";
+import { Chat, Message } from "@prisma/client";
 import { useChat } from "ai/react";
-import { ChatList } from "./chat-list";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
 import { SendHorizonal, StopCircleIcon } from "lucide-react";
-import TextAreaResizable from "react-textarea-autosize";
 import React from "react";
+import TextAreaResizable from "react-textarea-autosize";
+import { ChatList } from "./chat-list";
+import { Button } from "./ui/button";
 
 type ChatProps = {
-  chat: ChatModel;
+  chat: Chat;
   messages: Message[];
 };
 
@@ -22,10 +21,10 @@ export function Chat({ chat, messages: initialMessages }: ChatProps) {
       id: chat.id,
       api: `/api/chat/${chat.id}`,
       body: {
-        filename: chat.filename,
+        filename: chat.fileName,
       },
       initialMessages: initialMessages.map((message) => ({
-        role: message.role,
+        role: message.role as "user" | "assistant",
         id: message.id,
         content: message.content,
       })),
@@ -56,7 +55,7 @@ export function Chat({ chat, messages: initialMessages }: ChatProps) {
                 buttonRef.current?.click();
               }
             }}
-            className="placeholder:text-muted-foreground focus-visible:ring-ring border-input min-h-9 max-h-20 flex-1 resize-none rounded-md border bg-transparent px-3 py-1 text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:cursor-not-allowed disabled:opacity-50"
+            className="max-h-20 min-h-9 flex-1 resize-none rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
           />
           <Button ref={buttonRef} type="submit" size="icon" variant="default">
             <SendHorizonal className="size-4" />

@@ -6,7 +6,7 @@
   "settings": {
     "tailwindcss": {
       "calles": ["className", "cn", "clsx"],
-      "config": "tailwind.config.js"
+      "config": "tailwind.config.ts"
     }
   }
 }

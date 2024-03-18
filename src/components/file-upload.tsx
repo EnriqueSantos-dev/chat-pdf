@@ -58,14 +58,14 @@ export function FileUpload({ className, ...props }: FileUploadProps) {
         {status === "pending" ? (
           <>
             {/* loading state */}
-            <Loader2 className="h-10 w-10 animate-spin text-blue-500" />
+            <Loader2 className="size-10 animate-spin text-blue-500" />
             <p className="mt-2 text-sm text-slate-400">
               Criando uma conversa, aguarde...
             </p>
           </>
         ) : (
           <>
-            <Inbox className="h-10 w-10 text-blue-500" />
+            <Inbox className="size-10 text-blue-500" />
             <p className="mt-2 text-sm text-slate-400">
               Jogue seu arquivo aqui
             </p>
