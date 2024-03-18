@@ -4,17 +4,13 @@ import Link from "next/link";
 import { ChatHistoryLink } from "./chat-history-link";
 import { buttonVariants } from "./ui/button";
 import prisma from "@/lib/prisma";
-import { cache } from "react";
-
-const getChats = cache(async (userId: string) => {
-  return await prisma.chat.findMany({
-    where: { userId },
-  });
-});
 
 export async function ChatHistory() {
   const session = await auth();
-  const history = await getChats(session?.user?.id!);
+  const history = await prisma.chat.findMany({
+    where: { userId: session?.user.id },
+    orderBy: { createdAt: "desc" },
+  });
 
   return (
     <aside className="grid size-full grid-rows-[auto_1fr] gap-y-6 border-r p-6">
